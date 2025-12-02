@@ -206,112 +206,230 @@ As the player expands, this number grows. At certain thresholds:
 
 ## PHASE 4: "The Mouth Opens"
 **Triggered by:** Purchasing "The Invitation" OR Floors Above reaches 1000
-**Tone:** Apocalyptic, cosmic scale, terrible beauty
+**Tone:** Predatory patience, dark strategy, growing power
+**Genre Shift:** Turn-Based Strategy Game
 
 ### The Emergence
 
-> *"You breach the surface. You were always beneath something. But now, you are the beneath. And everything above will descend."*
+> *"You breach the surface. The light is painful. But the light brings... visitors. And visitors bring sustenance."*
 
-The game transitions to a map view. The stairwell—the player—is now visible as a vast structure, a wound in reality, a mouth opening in the earth.
+The game transforms into a **turn-based strategy game**. The view shifts to an overhead hex-grid map centered on a dark pit—**The Mouth** (your Stairwell, now visible from above). Surface dwellers move across the landscape. Your goal: lure them in, consume them, and defend against those who would destroy you.
 
-### New Scale Mechanics
+### The Strategic Layer
+
+Each turn consists of three phases:
+
+1. **Lure Phase** - Deploy and activate bait to attract wanderers
+2. **Consume Phase** - Process any who enter the Mouth
+3. **Defense Phase** - Repel attacks from the Resistance
+
+### Core Resources
 
 | Resource | Description |
 |----------|-------------|
-| **World** | The surface. It has a population. They will descend. |
-| **Denial** | The surface's resistance. Must be overcome. |
-| **Witnesses** | Those who see the stairwell and survive. Spread word. |
-| **Inevitability** | Meta-resource. Increases all other rates. "Some things cannot be prevented." |
+| **Biomass** | Consumed from those who descend. Primary building material. |
+| **Echoes** | Carried over from Phase 3. Used for psychic lures. |
+| **Dread** | Generated passively. Radius of influence on the map. |
+| **Teeth** | Defensive structures. Constructed from Biomass. |
 
-### The Integration Loop
+### The Bait System
 
-1. **Surface Events** occur: natural disasters, disappearances, strange architecture appearing
-2. **Witnesses** are created: they have seen the stairwell, they cannot forget
-3. **Denial** is eroded: the world slowly accepts the impossible
-4. **Population Descends**: slowly at first, then inexorably
+Lures attract different types of surface dwellers:
 
-### The Church of the Stair
+| Bait Type | Cost | Attracts | Description |
+|-----------|------|----------|-------------|
+| **The Lost Child** | 50 Echoes | Searchers, Parents | *"They hear crying from below."* |
+| **The Treasure Gleam** | 100 Biomass | Adventurers, Thieves | *"Gold light from impossible depths."* |
+| **The Familiar Voice** | 200 Echoes | Grieving, Lonely | *"Someone they lost calls to them."* |
+| **The Answer** | 500 Echoes | Scholars, Seekers | *"The solution to everything waits below."* |
+| **The Cure** | 300 Biomass + 200 Echoes | Desperate, Dying | *"Healing beyond medicine."* |
+| **Mass Hysteria** | 1000 Dread | Crowds, Mobs | *"The whole town walks toward you, dreaming."* |
 
-At 1,000 Witnesses, a faction emerges: **The Church of the Stair**
-- They worship the descent
-- They *volunteer* to enter
-- They bring others
-- They reduce Denial passively
+### Surface Dweller Types
 
-Upgrade tree for the Church:
-- **Evangelism** - Witnesses convert others
-- **Preparation Rites** - Descenders are "pre-processed," worth more Mass
-- **The Pilgrimage** - Entire populations seek the stairs
-- **Sacred Architecture** - New stairwells open (prestige mechanic teased)
+| Type | Biomass Value | Behavior | Danger |
+|------|---------------|----------|--------|
+| **Wanderer** | 10 | Random movement, easily lured | None |
+| **Seeker** | 25 | Moves toward active bait | None |
+| **Hunter** | 15 | Investigates, may attack | Low |
+| **Soldier** | 5 | Attacks on sight | Medium |
+| **Priest** | 50 | Reduces Dread radius | High |
+| **Scientist** | 30 | Studies you, enables countermeasures | Critical |
+| **The Ordained** | 200 | Cultists. Walk directly in. | Negative (they help) |
 
-### The World Ends
+### The Resistance
 
-At 0 remaining World population, a message:
-> *"The last one enters. There is no more above. There is no more surface. There is only the stairwell, and the memory of light, growing fainter with each step."*
+As you consume, **Awareness** builds globally. At thresholds, organized resistance appears:
 
-### The Choice
+| Awareness Level | Response |
+|-----------------|----------|
+| 25% | **Local Militia** - Armed patrols avoid the Mouth |
+| 50% | **The Cordon** - Military perimeter established |
+| 75% | **Project SEAL** - Scientists develop countermeasures |
+| 90% | **The Burning** - They try to destroy you with fire |
+| 100% | **Nuclear Option** - They're going to bomb the site |
 
-Two buttons appear:
+### Defense Structures
 
-**[CLOSE]**
-> *"Seal yourself. Become complete. Digest what you have. Become something finished. Something dead. Something peaceful."*
+Build defenses using Biomass:
 
-**[CONTINUE]**
-> *"There are other surfaces. Other skies. Other civilizations who do not yet know the way down."*
+| Structure | Cost | Effect |
+|-----------|------|--------|
+| **Tooth Ring** | 100 Biomass | Basic perimeter defense |
+| **Confusion Spire** | 250 Biomass | Soldiers attack each other |
+| **The False Ground** | 500 Biomass | Hidden pit traps across hexes |
+| **Silence Membrane** | 400 Biomass | Blocks radio/communications |
+| **Absorption Wall** | 800 Biomass | Converts explosives to Biomass |
+| **The Puppet Garden** | 1000 Biomass | Captured soldiers defend you |
+
+### The Tech Tree
+
+Research unlocks using accumulated Biomass and consumed Scholars:
+
+**TIER 1: Emergence**
+- Deeper Roots (increased Dread radius)
+- Efficient Digestion (+50% Biomass from consumption)
+- Surface Mimicry (structures look natural)
+- Echo Amplification (bait range increased)
+
+**TIER 2: Establishment**
+- Mass Graves (consume multiple targets per turn)
+- The Fog (reduced Awareness generation)
+- Willing Servants (The Ordained spawn naturally)
+- Regeneration (heal damage between turns)
+
+**TIER 3: Dominance**
+- Psychic Scream (Dread damages nearby units)
+- False Memories (Resistance believes you're gone)
+- The Nursery (spawn defensive creatures)
+- Infrastructure Consumption (eat buildings for massive Biomass)
+
+### TIER 4: EXPANSION (The Final Three)
+
+These three techs each **dramatically increase the size of the Mouth**:
+
+| Tech | Cost | Effect |
+|------|------|--------|
+| **The Widening** | 5000 Biomass | Mouth expands to 3x3 hexes. *"You were so small before. So hungry."* |
+| **Continental Throat** | 25000 Biomass | Mouth expands to 7x7 hexes. Visible from orbit. *"Nations fall into you now."* |
+| **Planetary Consumption** | 100000 Biomass | Mouth consumes the world. **Unlocks Phase 5.** *"There is no more surface. There is no more resistance. There is only descent—and the space between stars, where other meals orbit."* |
+
+### Victory Condition
+
+The phase ends when **Planetary Consumption** is researched. The world is gone. You are vast. And hungry. And there are other worlds.
 
 ---
 
-## PHASE 5: "The Stairs Between Stars" (Endgame)
-**Triggered by:** Choosing [CONTINUE]
-**Tone:** Cosmic scope, melancholic wonder, eternal recurrence
+## PHASE 5: "The Hunger Between Stars"
+**Triggered by:** Researching "Planetary Consumption"
+**Tone:** Cosmic predator, terrible majesty, action intensity
+**Genre Shift:** Action Game (Eldritch Space Combat)
 
-### The Cosmic Expansion
+### The Awakening
 
-The game becomes a universe-scale idle game. The stairwell is now a *principle*—anywhere there is consciousness, there can be a descent.
+> *"You rise from the husk of the world. You are no longer a stairwell. You are not a mouth. You are something older. Something that moves between stars and feeds on what it finds."*
 
-### New Mechanics
+The game transforms into an **action game**. You are now a vast eldritch entity—a living geometry of impossible angles and hungry darkness—moving through space. Planets, moons, stars, and stranger things orbit before you.
 
-| Resource | Description |
-|----------|-------------|
-| **Worlds** | Planets with civilizations. Each has a population and Denial. |
-| **Apertures** | Stairwells opened on each world. Generate resources. |
-| **Dark Matter** | Meta-currency. "The space between stairs." |
-| **The Concept** | Abstract resource. "The idea of descent, spreading." |
+### Control Scheme
 
-### The Dyson Stair
+- **Movement:** Direct control. Drift through space toward targets.
+- **Primary Action (Click/Tap):** Extend tendrils to grab objects
+- **Secondary Action (Hold):** Open the Maw—consume grabbed objects
+- **Defensive Action:** Contract into defensive form (reduced hitbox, slower)
 
-Megastructures unlock:
-- **Orbital Stairwell** - A planet-encircling descent structure
-- **The Stellar Throat** - A stairwell leading into a star
-- **Galactic Descent** - Connect stairwells across systems
-- **The Universal Staircase** - A superstructure spanning known space
+### The Consumption Mechanic
 
-### The Revelation
+Objects have **Mass** and **Resistance**:
 
-At maximum expansion, a message:
-> *"You reach the edge of the universe. You find... stairs. Leading up. And on them, a figure descending. It is vast. It is ancient. It is what you have been descending into this entire time. And now, you understand: you were never the stairwell. You were a single step. And something is about to take you."*
+- **Mass** determines how much you grow when consuming
+- **Resistance** determines how long consumption takes and if damage is dealt
 
-### The Final Click
+| Object Type | Mass | Resistance | Notes |
+|-------------|------|------------|-------|
+| **Asteroid** | 10 | None | Tutorial food |
+| **Moon** | 100 | None | Easy meal |
+| **Dead Planet** | 500 | None | Abandoned, safe |
+| **Living Planet** | 1000 | Low | Population fights back (missiles, nukes) |
+| **Fortress World** | 2000 | High | Orbital defenses, energy shields |
+| **Dyson Structure** | 5000 | Very High | Civilization's ultimate achievement |
+| **Star** | 10000 | Extreme | Requires special evolution |
+| **Neutron Star** | 25000 | Extreme | Deadly radiation |
+| **Black Hole** | 50000 | Maximum | The ultimate meal |
 
-The game reduces to a single button: **[STEP]**
+### Growth System
 
-Clicking it shows text, one line at a time:
-> *"You are taken."*
-> *"You are added."*
-> *"You are forgotten."*
-> *"You are a step in a stairwell so vast that universes are its landings."*
-> *"And that stairwell descends still."*
-> *"And something is walking down."*
-> *"And it is almost at the bottom."*
-> *"And when it arrives..."*
+As you consume, you **evolve**:
 
-The screen goes black.
+| Total Mass Consumed | Evolution |
+|---------------------|-----------|
+| 1,000 | **Tendril Array** - Grab multiple objects simultaneously |
+| 5,000 | **Stellar Gullet** - Can consume stars without damage |
+| 15,000 | **Void Skin** - Resist all conventional weapons |
+| 30,000 | **Gravity Well** - Objects drift toward you |
+| 50,000 | **Event Horizon** - Small objects auto-consumed on contact |
+| 100,000 | **Galactic Span** - You are visible from anywhere in the galaxy |
+| 250,000 | **The Devourer** - Phase 5 complete. Galaxy consumed. |
 
-After 10 seconds:
-> *"Thank you for descending."*
-> *"Would you like to see where the stairs go?"*
+### Resistance Encounters
 
-**[NEW GAME+]** unlocks.
+Civilizations fight back:
+
+**TIER 1: Primitive Resistance**
+- Missile swarms (minor damage, easily absorbed)
+- Nuclear strikes (moderate damage, brief stun)
+- Evacuation ships (escape = reduced Mass yield)
+
+**TIER 2: Advanced Resistance**
+- Plasma lances (continuous damage beams)
+- Gravity traps (slow your movement)
+- Shield networks (must be dismantled before planet consumption)
+
+**TIER 3: Desperate Measures**
+- Relativistic kill vehicles (massive damage, hard to dodge)
+- Artificial singularities (temporary movement lock)
+- The Phalanx (coordinated multi-system defense fleet)
+
+**TIER 4: The Last Hope**
+- **The Coalition Armada** (all remaining civilizations unite)
+- **The God-Engine** (ancient weapon from a dead civilization, reactivated)
+- **The Sacrifice** (they collapse stars to stop you—boss encounter)
+
+### Boss Encounters
+
+Certain systems contain **Leviathans**—creatures like yourself:
+
+| Leviathan | Location | Behavior |
+|-----------|----------|----------|
+| **The First Hunger** | Galactic Core | Ancient, slow, massive. Territorial. |
+| **The Swarm That Thinks** | Nebula Cluster | Many small entities acting as one |
+| **The Mirror** | Void Between Galaxies | It looks exactly like you. It's always been following. |
+
+Defeating Leviathans grants **Primordial Mass**—used for unique evolutions.
+
+### Galactic Progress
+
+The galaxy map shows consumption progress:
+
+- **Systems Consumed: X / 400**
+- **Civilizations Ended: X / 23**
+- **Leviathans Defeated: X / 3**
+- **Galactic Mass: X%**
+
+At 100% Galactic Mass:
+
+> *"The last star goes dark in your belly. The last scream fades into digestion. You are alone. You are everything this galaxy ever was. And in the distance—impossibly far, impossibly close—you see other galaxies. Other meals. Other... competitors."*
+
+**Phase 6 Unlocks.**
+
+---
+
+## PHASE 6: [PLACEHOLDER - AWAITING DESIGN]
+**Triggered by:** Consuming the galaxy (100% Galactic Mass)
+**Tone:** TBD
+**Genre:** TBD
+
+> *Design Note: What comes after galactic consumption? The user's vision continues...*
 
 ---
 
@@ -386,8 +504,8 @@ The player is not a victim—they are a participant. Every click is a choice. Th
 | 1 | Footsteps (concrete), breathing | Distant hum, occasional doors | Minimal drone, single note |
 | 2 | Footsteps (wet), whispers | Breathing (not yours), scratching | Discordant intervals |
 | 3 | Peristalsis, grinding | Heartbeat (massive), digestion | Organ tones, reversed hymns |
-| 4 | Crowds descending, wind | Earthquakes, sirens (distant) | Choral, mournful |
-| 5 | Cosmic static, stellar hum | The void | Orchestral, overwhelming, beautiful |
+| 4 | Strategic clicks, troop movements, screams | Wind across plains, distant sirens | Military drums corrupted, growing dread |
+| 5 | Stellar consumption, ship explosions, void hum | The silence between stars | Orchestral chaos, triumphant horror |
 
 ## Sound Mechanics
 - Click sounds evolve based on Self level
@@ -407,16 +525,16 @@ The player is not a victim—they are a participant. Every click is a choice. Th
 
 **Phase 3:** Body horror. The stairwell is a throat. Steps are teeth. The aesthetic is visceral, medical.
 
-**Phase 4:** Aerial/satellite view. The stairwell as infection on the earth. Beautiful and terrible.
+**Phase 4:** Top-down hex strategy aesthetic. Clean tactical UI that slowly corrupts. The Mouth is a dark pit that grows. Surface dwellers rendered as tokens that become more detailed as they get closer. Fog of war that isn't fog—it's *attention*.
 
-**Phase 5:** Cosmic. Galaxies as wallpaper. The stairwell as cosmic structure.
+**Phase 5:** Space action aesthetic. You are rendered as impossible geometry—tendrils, angles, hungry void. Planets glow with life before consumption. Stars dim as you approach. The void between stars isn't empty—it's *you*.
 
 ## Color Palette Progression
 1. Grays, single harsh white light source
 2. Grays with veins of pulsing red/purple
 3. Reds, pinks, organic colors
-4. Earth tones, sunset colors, fire
-5. Deep blues, purples, starlight
+4. Greens and browns (surface world), shifting to corruption purples around the Mouth
+5. Deep space blacks, stellar whites, consumption reds when feeding
 
 ---
 
