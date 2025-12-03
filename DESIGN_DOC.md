@@ -40,7 +40,7 @@ The entities behind the doors are not monsters—they are *previous descenders*,
 # Phase Structure
 
 ## PHASE 1: "The Descent Begins"
-**Duration:** ~20-40 minutes of active play
+**Duration:** ~10-15 minutes of active play
 **Tone:** Eerie but calm, mysterious, slightly unsettling
 
 ### Core Loop
@@ -82,6 +82,7 @@ The door slams shut. The game continues. But now there's a new stat visible: **O
 ---
 
 ## PHASE 2: "The Doors Open"
+**Duration:** ~10-15 minutes
 **Triggered by:** Reaching Floor 100 OR accumulating 5 Observers
 **Tone:** Unsettling, choices feel consequential, growing dread
 
@@ -146,6 +147,7 @@ At 0 Self:
 ---
 
 ## PHASE 3: "You Are Not Alone"
+**Duration:** ~5-10 minutes (completes the ~30 minute clicker arc)
 **Triggered by:** Self reaches 0 OR reaching Floor 500
 **Tone:** Cosmic horror, loss of agency, surrealist imagery
 
@@ -205,6 +207,7 @@ As the player expands, this number grows. At certain thresholds:
 ---
 
 ## PHASE 4: "The Mouth Opens"
+**Duration:** ~45-60 minutes
 **Triggered by:** Purchasing "The Invitation" OR Floors Above reaches 1000
 **Tone:** Predatory patience, dark strategy, growing power
 **Genre Shift:** Turn-Based Strategy Game
@@ -321,6 +324,7 @@ The phase ends when **Planetary Consumption** is researched. The world is gone. 
 ---
 
 ## PHASE 5: "The Hunger Between Stars"
+**Duration:** ~45-60 minutes
 **Triggered by:** Researching "Planetary Consumption"
 **Tone:** Cosmic predator, terrible majesty, action intensity
 **Genre Shift:** Action Game (Eldritch Space Combat)
@@ -601,7 +605,10 @@ The player is not a victim—they are a participant. Every click is a choice. Th
 - 50%+ players reach Phase 3
 - 30%+ players reach Phase 4
 - 10%+ players reach True Ending
-- Average session length: 20-30 minutes
+- Total playthrough time: 2-3 hours
+- Clicker arc (Phases 1-3): ~30 minutes
+- Strategy arc (Phase 4): ~45-60 minutes
+- Action arc (Phase 5): ~45-60 minutes
 - Return rate for NG+: 40%+
 
 ## Emotional Goals
