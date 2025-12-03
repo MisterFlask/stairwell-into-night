@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stairwell into Night</title>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- Phase 1-3: Clicker UI -->
+    <div id="clicker-phase" class="phase-container">
+      <div id="narrative-box"></div>
+      <div id="stats-panel">
+        <div id="floor-display">Floor: <span id="floor-num">0</span></div>
+        <div id="depth-display">Depth: <span id="depth-num">0</span></div>
+        <div id="echoes-display">Echoes: <span id="echoes-num">0</span></div>
+        <div id="momentum-display">Momentum: <span id="momentum-num">0</span>/sec</div>
+        <div id="self-display" class="hidden">Self: <span id="self-num">100</span></div>
+        <div id="observers-display" class="hidden">Observers: <span id="observers-num">0</span></div>
+        <div id="influence-display" class="hidden">Influence: <span id="influence-num">0</span></div>
+      </div>
+
+      <div id="stairwell-visual">
+        <div id="stairs-container"></div>
+        <div id="darkness-overlay"></div>
+      </div>
+
+      <button id="descend-btn">STEP</button>
+
+      <div id="upgrades-panel">
+        <h3>Upgrades</h3>
+        <div id="upgrades-list"></div>
+      </div>
+
+      <div id="transformations-panel" class="hidden">
+        <h3>Transformations</h3>
+        <div id="transformations-list"></div>
+      </div>
+
+      <div id="event-modal" class="hidden">
+        <div id="event-content"></div>
+        <div id="event-choices"></div>
+      </div>
+    </div>
+
+    <!-- Phase 4: Strategy UI -->
+    <div id="strategy-phase" class="phase-container hidden">
+      <div id="strategy-stats">
+        <span>Biomass: <span id="biomass-num">0</span></span>
+        <span>Echoes: <span id="strat-echoes-num">0</span></span>
+        <span>Dread: <span id="dread-num">0</span></span>
+        <span>Awareness: <span id="awareness-num">0</span>%</span>
+        <span>Turn: <span id="turn-num">1</span></span>
+      </div>
+      <div id="hex-grid"></div>
+      <div id="strategy-controls">
+        <div id="phase-indicator">Lure Phase</div>
+        <div id="action-buttons">
+          <button id="end-phase-btn">End Phase</button>
+        </div>
+        <div id="bait-panel">
+          <h4>Bait</h4>
+          <div id="bait-list"></div>
+        </div>
+        <div id="defense-panel">
+          <h4>Defenses</h4>
+          <div id="defense-list"></div>
+        </div>
+        <div id="tech-panel">
+          <h4>Research</h4>
+          <div id="tech-list"></div>
+        </div>
+      </div>
+      <div id="strategy-log"></div>
+    </div>
+
+    <!-- Phase 5: Action UI -->
+    <div id="action-phase" class="phase-container hidden">
+      <div id="action-stats">
+        <span>Mass: <span id="mass-num">0</span></span>
+        <span>Health: <span id="health-bar"><span id="health-fill"></span></span></span>
+        <span>Systems: <span id="systems-num">0</span>/400</span>
+        <span>Evolutions: <span id="evolution-num">0</span></span>
+      </div>
+      <canvas id="space-canvas"></canvas>
+      <div id="action-controls">
+        <div id="evolution-panel">
+          <h4>Evolutions</h4>
+          <div id="evolution-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ending screens -->
+    <div id="ending-screen" class="phase-container hidden">
+      <div id="ending-text"></div>
+      <button id="new-game-btn" class="hidden">Descend Again</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
