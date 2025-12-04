@@ -15,7 +15,7 @@
         <div id="floor-display">Floor: <span id="floor-num">0</span></div>
         <div id="depth-display">Depth: <span id="depth-num">0</span></div>
         <div id="echoes-display">Echoes: <span id="echoes-num">0</span></div>
-        <div id="momentum-display">Momentum: <span id="momentum-num">0</span>/sec</div>
+        <div id="sentences-display">Sentences: <span id="sentences-num">0</span></div>
         <div id="self-display" class="hidden">Self: <span id="self-num">100</span></div>
         <div id="observers-display" class="hidden">Observers: <span id="observers-num">0</span></div>
         <div id="influence-display" class="hidden">Influence: <span id="influence-num">0</span></div>
@@ -26,7 +26,18 @@
         <div id="darkness-overlay"></div>
       </div>
 
-      <button id="descend-btn">STEP</button>
+      <!-- Typing Interface -->
+      <div id="typing-container">
+        <div id="sentence-display">
+          <span id="typed-correct"></span><span id="typed-wrong"></span><span id="sentence-remaining"></span>
+        </div>
+        <input type="text" id="typing-input" placeholder="Type the words to descend..." autocomplete="off" autocapitalize="off" spellcheck="false" />
+        <div id="typing-stats">
+          <span id="wpm-display">WPM: <span id="wpm-num">0</span></span>
+          <span id="accuracy-display">Accuracy: <span id="accuracy-num">100</span>%</span>
+          <span id="streak-display">Streak: <span id="streak-num">0</span></span>
+        </div>
+      </div>
 
       <div id="upgrades-panel">
         <h3>Upgrades</h3>

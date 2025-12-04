@@ -1,5 +1,12 @@
 import { gameState } from '../GameState';
 import type { Resident, EventChoice } from '../types';
+import {
+  getNextSentence,
+  checkTyping,
+  calculateWPM,
+  calculateAccuracy,
+  getDepthBonus,
+} from '../TypingSystem';
 
 // Narrative messages
 const narratives: { [key: number]: string } = {
@@ -52,137 +59,108 @@ const residents: Resident[] = [
 export function initClickerPhase(): void {
   initUpgrades();
   initTransformations();
+  initTypingSystem();
   updateUI();
-  startMomentumLoop();
 }
 
-function initUpgrades(): void {
-  gameState.upgrades = [
-    {
-      id: 'heavier_footfalls',
-      name: 'Heavier Footfalls',
-      description: '"Each step leaves a deeper impression."',
-      cost: 10,
-      costType: 'echoes',
-      effect: () => { gameState.depthPerClick += 1; },
-      purchased: false,
-      unlocked: true
-    },
-    {
-      id: 'fading_light',
-      name: 'Fading Light',
-      description: '"Your flashlight flickers, but you keep moving."',
-      cost: 25,
-      costType: 'echoes',
-      effect: () => { gameState.momentum += 0.5; },
-      purchased: false,
-      unlocked: true
-    },
-    {
-      id: 'focused_breathing',
-      name: 'Focused Breathing',
-      description: '"Memories surface more easily in the dark."',
-      cost: 40,
-      costType: 'echoes',
-      effect: () => { gameState.echoChance += 0.05; },
-      purchased: false,
-      unlocked: true
-    },
-    {
-      id: 'dont_look_back',
-      name: "Don't Look Back",
-      description: '"You don\'t want to see what\'s behind you."',
-      cost: 75,
-      costType: 'echoes',
-      effect: () => { gameState.depthPerClick += 2; },
-      purchased: false,
-      unlocked: true
-    },
-    {
-      id: 'peripheral_awareness',
-      name: 'Peripheral Awareness',
-      description: '"You notice more. You wish you didn\'t."',
-      cost: 100,
-      costType: 'echoes',
-      effect: () => { gameState.echoChance += 0.1; },
-      purchased: false,
-      unlocked: true
-    },
-    {
-      id: 'echo_resonance',
-      name: 'Echo Resonance',
-      description: '"The memories compound."',
-      cost: 200,
-      costType: 'echoes',
-      effect: () => { gameState.momentum += 1; },
-      purchased: false,
-      unlocked: false,
-      unlockCondition: () => gameState.floor >= 50
-    },
-    {
-      id: 'gravity_embrace',
-      name: 'Gravity\'s Embrace',
-      description: '"Down is easier than up."',
-      cost: 500,
-      costType: 'echoes',
-      effect: () => { gameState.depthPerClick *= 2; gameState.momentum *= 1.5; },
-      purchased: false,
-      unlocked: false,
-      unlockCondition: () => gameState.floor >= 100
+function initTypingSystem(): void {
+  // Set up the first sentence
+  loadNewSentence();
+
+  // Set up typing input handler
+  const input = document.getElementById('typing-input') as HTMLInputElement;
+  if (input) {
+    input.addEventListener('input', handleTyping);
+    input.addEventListener('keydown', handleKeyDown);
+    // Focus the input
+    input.focus();
+  }
+}
+
+function loadNewSentence(): void {
+  const difficulty = gameState.sentenceDifficulty;
+  gameState.typing.currentSentence = getNextSentence(gameState.floor, difficulty || undefined);
+  gameState.typing.typedText = '';
+  gameState.typing.startTime = null;
+  gameState.typing.currentErrors = 0;
+  updateTypingDisplay();
+}
+
+function handleKeyDown(e: KeyboardEvent): void {
+  // Prevent form submission on Enter
+  if (e.key === 'Enter') {
+    e.preventDefault();
+  }
+}
+
+function handleTyping(e: Event): void {
+  const input = e.target as HTMLInputElement;
+  const typed = input.value;
+  const target = gameState.typing.currentSentence;
+
+  // Start timing on first keystroke
+  if (gameState.typing.startTime === null && typed.length > 0) {
+    gameState.typing.startTime = Date.now();
+  }
+
+  // Check typing
+  const match = checkTyping(typed, target);
+  gameState.typing.typedText = typed;
+  gameState.typing.currentErrors = match.errors;
+
+  // Update display
+  updateTypingDisplay();
+
+  // Visual feedback for errors
+  if (match.errors > 0) {
+    input.classList.add('error');
+    setTimeout(() => input.classList.remove('error'), 200);
+  }
+
+  // Check for sentence completion
+  if (match.isComplete) {
+    completeSentence();
+  }
+}
+
+function completeSentence(): void {
+  const typing = gameState.typing;
+  const timeMs = Date.now() - (typing.startTime || Date.now());
+
+  // Calculate stats
+  const wpm = calculateWPM(typing.currentSentence.length, timeMs);
+  const accuracy = calculateAccuracy(
+    typing.currentSentence.length - typing.currentErrors,
+    typing.currentSentence.length
+  );
+
+  // Update running stats
+  typing.completedSentences++;
+  typing.totalCharactersTyped += typing.currentSentence.length;
+  typing.totalErrors += typing.currentErrors;
+  typing.wordsPerMinute = wpm;
+  typing.accuracy = calculateAccuracy(
+    typing.totalCharactersTyped - typing.totalErrors,
+    typing.totalCharactersTyped
+  );
+
+  // Update streak
+  if (typing.currentErrors === 0) {
+    typing.streak++;
+    if (typing.streak > typing.bestStreak) {
+      typing.bestStreak = typing.streak;
     }
-  ];
-}
+  } else {
+    typing.streak = 0;
+  }
 
-function initTransformations(): void {
-  gameState.transformations = [
-    {
-      id: 'hollow_legs',
-      name: 'Hollow Legs',
-      description: '"Your legs no longer tire. They are no longer entirely yours."',
-      selfCost: 20,
-      effect: () => { gameState.depthPerClick *= 10; },
-      purchased: false
-    },
-    {
-      id: 'echo_throat',
-      name: 'Echo Throat',
-      description: '"You speak their language now."',
-      selfCost: 15,
-      effect: () => { gameState.echoChance = 1.0; },
-      purchased: false
-    },
-    {
-      id: 'door_affinity',
-      name: 'Door Affinity',
-      description: '"They recognize you as kin."',
-      selfCost: 25,
-      effect: () => { gameState.influence += 100; },
-      purchased: false
-    },
-    {
-      id: 'depth_sight',
-      name: 'Depth Sight',
-      description: '"You perceive the dark. The dark perceives you."',
-      selfCost: 30,
-      effect: () => { gameState.momentum *= 3; },
-      purchased: false
-    },
-    {
-      id: 'unremembering',
-      name: 'Unremembering',
-      description: '"You don\'t need memories where you\'re going."',
-      selfCost: 10,
-      effect: () => {
-        gameState.influence += Math.floor(gameState.self * 5);
-        gameState.self = 0;
-      },
-      purchased: false
-    }
-  ];
-}
-
-export function descend(): void {
-  const depth = gameState.depthPerClick;
+  // Calculate depth with bonuses
+  const depth = getDepthBonus(
+    gameState.depthPerSentence,
+    accuracy,
+    wpm,
+    typing.streak
+  );
   gameState.depth += depth;
 
   // Check for floor advancement
@@ -207,7 +185,188 @@ export function descend(): void {
 
   // Update narrative
   updateNarrative();
-  updateUI();
+
+  // Visual feedback
+  const display = document.getElementById('sentence-display');
+  if (display) {
+    display.classList.add('complete');
+    setTimeout(() => display.classList.remove('complete'), 300);
+  }
+
+  // Clear input and load new sentence
+  const input = document.getElementById('typing-input') as HTMLInputElement;
+  if (input) {
+    input.value = '';
+  }
+
+  // Small delay before new sentence
+  setTimeout(() => {
+    loadNewSentence();
+    updateUI();
+  }, 150);
+}
+
+function updateTypingDisplay(): void {
+  const typed = gameState.typing.typedText;
+  const target = gameState.typing.currentSentence;
+
+  const correctEl = document.getElementById('typed-correct');
+  const wrongEl = document.getElementById('typed-wrong');
+  const remainingEl = document.getElementById('sentence-remaining');
+
+  if (correctEl && wrongEl && remainingEl) {
+    let correctText = '';
+    let wrongText = '';
+    let correctCount = 0;
+
+    for (let i = 0; i < typed.length; i++) {
+      if (i < target.length && typed[i] === target[i]) {
+        correctText += target[i];
+        correctCount++;
+      } else {
+        wrongText = typed.slice(correctCount);
+        break;
+      }
+    }
+
+    correctEl.textContent = correctText;
+    wrongEl.textContent = wrongText;
+    remainingEl.textContent = target.slice(typed.length);
+  }
+
+  // Update typing stats
+  const wpmEl = document.getElementById('wpm-num');
+  const accEl = document.getElementById('accuracy-num');
+  const streakEl = document.getElementById('streak-num');
+
+  if (wpmEl) wpmEl.textContent = String(gameState.typing.wordsPerMinute);
+  if (accEl) accEl.textContent = String(gameState.typing.accuracy);
+  if (streakEl) streakEl.textContent = String(gameState.typing.streak);
+}
+
+function initUpgrades(): void {
+  gameState.upgrades = [
+    {
+      id: 'heavier_footfalls',
+      name: 'Heavier Footfalls',
+      description: '"Each sentence leaves a deeper impression."',
+      cost: 10,
+      costType: 'echoes',
+      effect: () => { gameState.depthPerSentence += 5; },
+      purchased: false,
+      unlocked: true
+    },
+    {
+      id: 'fading_light',
+      name: 'Fading Light',
+      description: '"Simpler words emerge from the dark."',
+      cost: 25,
+      costType: 'echoes',
+      effect: () => { gameState.sentenceDifficulty = 'easy'; },
+      purchased: false,
+      unlocked: true
+    },
+    {
+      id: 'focused_breathing',
+      name: 'Focused Breathing',
+      description: '"Memories surface more easily in the dark."',
+      cost: 40,
+      costType: 'echoes',
+      effect: () => { gameState.echoChance += 0.05; },
+      purchased: false,
+      unlocked: true
+    },
+    {
+      id: 'dont_look_back',
+      name: "Don't Look Back",
+      description: '"You don\'t want to see what\'s behind you."',
+      cost: 75,
+      costType: 'echoes',
+      effect: () => { gameState.depthPerSentence += 10; },
+      purchased: false,
+      unlocked: true
+    },
+    {
+      id: 'peripheral_awareness',
+      name: 'Peripheral Awareness',
+      description: '"You notice more. You wish you didn\'t."',
+      cost: 100,
+      costType: 'echoes',
+      effect: () => { gameState.echoChance += 0.1; },
+      purchased: false,
+      unlocked: true
+    },
+    {
+      id: 'echo_resonance',
+      name: 'Echo Resonance',
+      description: '"The words compound."',
+      cost: 200,
+      costType: 'echoes',
+      effect: () => { gameState.depthPerSentence += 15; },
+      purchased: false,
+      unlocked: false,
+      unlockCondition: () => gameState.floor >= 50
+    },
+    {
+      id: 'gravity_embrace',
+      name: 'Gravity\'s Embrace',
+      description: '"Down is easier than up."',
+      cost: 500,
+      costType: 'echoes',
+      effect: () => { gameState.depthPerSentence *= 2; },
+      purchased: false,
+      unlocked: false,
+      unlockCondition: () => gameState.floor >= 100
+    }
+  ];
+}
+
+function initTransformations(): void {
+  gameState.transformations = [
+    {
+      id: 'hollow_legs',
+      name: 'Hollow Legs',
+      description: '"Your legs no longer tire. They are no longer entirely yours."',
+      selfCost: 20,
+      effect: () => { gameState.depthPerSentence *= 5; },
+      purchased: false
+    },
+    {
+      id: 'echo_throat',
+      name: 'Echo Throat',
+      description: '"You speak their language now."',
+      selfCost: 15,
+      effect: () => { gameState.echoChance = 1.0; },
+      purchased: false
+    },
+    {
+      id: 'door_affinity',
+      name: 'Door Affinity',
+      description: '"They recognize you as kin."',
+      selfCost: 25,
+      effect: () => { gameState.influence += 100; },
+      purchased: false
+    },
+    {
+      id: 'depth_sight',
+      name: 'Depth Sight',
+      description: '"You perceive the dark. The dark perceives you."',
+      selfCost: 30,
+      effect: () => { gameState.depthPerSentence *= 3; },
+      purchased: false
+    },
+    {
+      id: 'unremembering',
+      name: 'Unremembering',
+      description: '"You don\'t need memories where you\'re going."',
+      selfCost: 10,
+      effect: () => {
+        gameState.influence += Math.floor(gameState.self * 5);
+        gameState.self = 0;
+      },
+      purchased: false
+    }
+  ];
 }
 
 function checkFloorEvents(): void {
@@ -234,6 +393,7 @@ function checkFloorEvents(): void {
 
 function showDoorEvent(): void {
   gameState.hasSeenDoor = true;
+  pauseTyping();
   const choices: EventChoice[] = [
     {
       text: 'Look Inside (Free)',
@@ -241,7 +401,7 @@ function showDoorEvent(): void {
         gameState.observers += 1;
         showModal(
           "You see yourself from behind, descending a stairwell. The other-you pauses. Begins to turn—\n\nThe door slams shut.",
-          [{ text: 'Continue', effect: () => { hideModal(); updateUI(); } }]
+          [{ text: 'Continue', effect: () => { hideModal(); resumeTyping(); updateUI(); } }]
         );
       }
     },
@@ -252,6 +412,7 @@ function showDoorEvent(): void {
         if (gameState.echoes >= 10) {
           gameState.echoes -= 10;
           hideModal();
+          resumeTyping();
         }
       }
     }
@@ -264,6 +425,7 @@ function showDoorEvent(): void {
 }
 
 function showResidentEvent(resident: Resident): void {
+  pauseTyping();
   const choices: EventChoice[] = [
     {
       text: `Accept their gift (Cost: 15 Self)`,
@@ -271,8 +433,9 @@ function showResidentEvent(resident: Resident): void {
       effect: () => {
         if (gameState.self >= 15) {
           gameState.self -= 15;
-          gameState.depthPerClick *= 2;
+          gameState.depthPerSentence *= 2;
           hideModal();
+          resumeTyping();
           updateUI();
         }
       }
@@ -285,6 +448,7 @@ function showResidentEvent(resident: Resident): void {
           gameState.echoes -= 10;
           gameState.influence += 50;
           hideModal();
+          resumeTyping();
           updateUI();
         }
       }
@@ -294,6 +458,7 @@ function showResidentEvent(resident: Resident): void {
       effect: () => {
         gameState.observers += 1;
         hideModal();
+        resumeTyping();
         updateUI();
       }
     }
@@ -318,6 +483,21 @@ function showRandomEvent(): void {
 
   const text = events[Math.floor(Math.random() * events.length)];
   setNarrative(text);
+}
+
+function pauseTyping(): void {
+  const input = document.getElementById('typing-input') as HTMLInputElement;
+  if (input) {
+    input.disabled = true;
+  }
+}
+
+function resumeTyping(): void {
+  const input = document.getElementById('typing-input') as HTMLInputElement;
+  if (input) {
+    input.disabled = false;
+    input.focus();
+  }
 }
 
 function checkPhaseTransition(): void {
@@ -358,10 +538,6 @@ function transitionToPhase3(): void {
 
   setNarrative("You reach the bottom of yourself. But the stairwell continues. You realize the stairwell was never yours to descend—you were the stairwell.");
 
-  // Change button text
-  const btn = document.getElementById('descend-btn');
-  if (btn) btn.textContent = 'DESCEND';
-
   // Start floorsAbove counter
   startPhase3Loop();
   updateUI();
@@ -381,30 +557,6 @@ function transitionToPhase4(): void {
   import('./StrategyPhase').then(module => {
     module.initStrategyPhase();
   });
-}
-
-function startMomentumLoop(): void {
-  setInterval(() => {
-    if (typeof gameState.phase === 'number' && gameState.phase <= 3 && gameState.momentum > 0) {
-      gameState.depth += gameState.momentum;
-
-      const newFloor = Math.floor(gameState.depth / gameState.depthPerFloor);
-      if (newFloor > gameState.floor) {
-        const floorsGained = newFloor - gameState.floor;
-        gameState.floor = newFloor;
-
-        for (let i = 0; i < floorsGained; i++) {
-          if (Math.random() < gameState.echoChance) {
-            gameState.echoes += 1;
-          }
-        }
-
-        checkPhaseTransition();
-      }
-
-      updateUI();
-    }
-  }, 1000);
 }
 
 function startPhase3Loop(): void {
@@ -526,7 +678,7 @@ export function updateUI(): void {
   setNum('floor-num', gameState.floor);
   setNum('depth-num', gameState.depth);
   setNum('echoes-num', gameState.echoes);
-  setNum('momentum-num', gameState.momentum);
+  setNum('sentences-num', gameState.typing.completedSentences);
   setNum('self-num', gameState.self);
   setNum('observers-num', gameState.observers);
   setNum('influence-num', gameState.influence);
@@ -590,6 +742,9 @@ export function updateUI(): void {
 
   // Update stairwell visual
   updateStairwellVisual();
+
+  // Update typing display
+  updateTypingDisplay();
 }
 
 function updateStairwellVisual(): void {
@@ -613,5 +768,13 @@ function updateStairwellVisual(): void {
     stair.style.opacity = String(1 - (i * 0.08));
 
     container.appendChild(stair);
+  }
+}
+
+// Export for external use
+export function focusTypingInput(): void {
+  const input = document.getElementById('typing-input') as HTMLInputElement;
+  if (input) {
+    input.focus();
   }
 }

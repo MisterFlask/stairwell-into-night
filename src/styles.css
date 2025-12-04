@@ -122,33 +122,116 @@ body {
   pointer-events: none;
 }
 
-/* Descend button */
-#descend-btn {
-  font-family: 'Courier New', monospace;
-  font-size: 24px;
-  padding: 20px 60px;
-  background: linear-gradient(180deg, #2a2a3a 0%, #1a1a2a 100%);
-  border: 2px solid #444;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: all 0.2s;
+/* Typing Interface */
+#typing-container {
+  width: 100%;
+  max-width: 700px;
   margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
-#descend-btn:hover {
-  background: linear-gradient(180deg, #3a3a4a 0%, #2a2a3a 100%);
+#sentence-display {
+  font-family: 'Courier New', monospace;
+  font-size: 24px;
+  padding: 25px 30px;
+  background: linear-gradient(180deg, #1a1a2a 0%, #0f0f1f 100%);
+  border: 2px solid #333;
+  border-radius: 8px;
+  min-height: 80px;
+  width: 100%;
+  text-align: center;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}
+
+#typed-correct {
+  color: var(--highlight-color);
+  text-shadow: 0 0 10px rgba(128, 128, 160, 0.5);
+}
+
+#typed-wrong {
+  color: #ff4444;
+  background: rgba(255, 0, 0, 0.2);
+  text-decoration: underline wavy #ff4444;
+}
+
+#sentence-remaining {
+  color: #555;
+}
+
+#typing-input {
+  font-family: 'Courier New', monospace;
+  font-size: 20px;
+  padding: 15px 25px;
+  width: 100%;
+  background: rgba(20, 20, 30, 0.9);
+  border: 2px solid #444;
+  border-radius: 5px;
+  color: var(--text-color);
+  outline: none;
+  transition: all 0.2s;
+}
+
+#typing-input:focus {
   border-color: var(--highlight-color);
   box-shadow: 0 0 20px rgba(128, 128, 160, 0.2);
 }
 
-#descend-btn:active {
-  transform: scale(0.98);
+#typing-input::placeholder {
+  color: #444;
+  font-style: italic;
 }
 
-#descend-btn.organic {
-  background: linear-gradient(180deg, #3a2a3a 0%, #2a1a2a 100%);
-  border-color: #5a3a4a;
-  animation: pulse 2s infinite;
+#typing-stats {
+  display: flex;
+  gap: 30px;
+  font-size: 14px;
+  color: #666;
+}
+
+#typing-stats span {
+  padding: 5px 15px;
+  background: rgba(30, 30, 40, 0.5);
+  border-radius: 3px;
+}
+
+#wpm-num {
+  color: var(--highlight-color);
+}
+
+#accuracy-num {
+  color: #6a9a6a;
+}
+
+#streak-num {
+  color: #9a9a6a;
+}
+
+/* Sentence completion animation */
+@keyframes sentenceComplete {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(128, 128, 160, 0.4); }
+  100% { transform: scale(1); }
+}
+
+#sentence-display.complete {
+  animation: sentenceComplete 0.3s ease-out;
+  border-color: var(--highlight-color);
+}
+
+/* Error shake animation */
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+#typing-input.error {
+  animation: errorShake 0.2s ease-out;
+  border-color: #6a3030;
 }
 
 @keyframes pulse {
