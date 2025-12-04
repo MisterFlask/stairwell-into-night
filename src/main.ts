@@ -1,31 +1,24 @@
 import { gameState } from './GameState';
-import { initClickerPhase, descend, updateUI } from './phases/ClickerPhase';
+import { initClickerPhase, updateUI, focusTypingInput } from './phases/ClickerPhase';
 
 // Initialize game
 function init(): void {
   console.log('Stairwell into Night - Initializing...');
 
-  // Start with Phase 1 (Clicker)
+  // Start with Phase 1 (Typing)
   initClickerPhase();
-
-  // Set up descend button
-  const descendBtn = document.getElementById('descend-btn');
-  if (descendBtn) {
-    descendBtn.addEventListener('click', () => {
-      descend();
-    });
-
-    // Also handle keyboard
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'Space' && typeof gameState.phase === 'number' && gameState.phase <= 3) {
-        e.preventDefault();
-        descend();
-      }
-    });
-  }
 
   // Initial narrative
   showIntroduction();
+
+  // Focus typing input when clicking anywhere in the game
+  document.getElementById('clicker-phase')?.addEventListener('click', (e) => {
+    // Don't steal focus if clicking on upgrades/transformations
+    const target = e.target as HTMLElement;
+    if (!target.closest('#upgrades-panel') && !target.closest('#transformations-panel') && !target.closest('#event-modal')) {
+      focusTypingInput();
+    }
+  });
 }
 
 function showIntroduction(): void {

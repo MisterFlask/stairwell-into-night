@@ -1,4 +1,6 @@
 import type { GamePhase, Upgrade, Transformation, HexTile, Entity, Tech, SpaceObject, Evolution, Projectile } from './types';
+import type { TypingState } from './TypingSystem';
+import { createInitialTypingState } from './TypingSystem';
 
 class GameState {
   // Core state
@@ -13,10 +15,14 @@ class GameState {
   observers: number = 0;
   influence: number = 0;
 
+  // Typing state
+  typing: TypingState = createInitialTypingState();
+
   // Multipliers
-  depthPerClick: number = 1;
+  depthPerSentence: number = 10; // Base depth gained per completed sentence
   echoChance: number = 0.1;
   depthPerFloor: number = 10;
+  sentenceDifficulty: 'easy' | 'medium' | 'hard' | null = null; // null = mixed
 
   // Phase tracking
   floorsAbove: number = 0;
@@ -84,9 +90,11 @@ class GameState {
     this.self = 100;
     this.observers = 0;
     this.influence = 0;
-    this.depthPerClick = 1;
+    this.typing = createInitialTypingState();
+    this.depthPerSentence = 10;
     this.echoChance = 0.1;
     this.depthPerFloor = 10;
+    this.sentenceDifficulty = null;
     this.floorsAbove = 0;
     this.totalDescenders = 0;
     this.biomass = 0;
